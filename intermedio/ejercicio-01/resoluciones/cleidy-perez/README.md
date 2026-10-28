@@ -14,3 +14,22 @@ Desde la raíz del repositorio:
 cd basico/ejercicio-01/resoluciones/cleidy-perez
 npm install
 npm start
+
+node src/app.js
+
+=== Ejercicio 01: Node runtime y consola ===
+Node.js: v26.5.0
+Plataforma: linux
+Arquitectura: x64
+PID: 42157
+
+Personaje RPG:
+┌─────────┬──────────────────────────┐
+│ (index) │ Values                   │
+├─────────┼──────────────────────────┤
+│ name    │ 'Ariadna'                │
+│ class   │ 'Exploradora'            │
+│ level   │ 1                        │
+│ status  │ 'Lista para la aventura' │
+└─────────┴──────────────────────────┘
+
