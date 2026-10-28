@@ -4,7 +4,7 @@ const players= [
     { id: 3, name: "Dragón", class: "Defensor", lever: 2}
 ];
 
-export const getAllPLayers=()=>{
+export const getAllPlayers=()=>{
     return players;
 };
 
