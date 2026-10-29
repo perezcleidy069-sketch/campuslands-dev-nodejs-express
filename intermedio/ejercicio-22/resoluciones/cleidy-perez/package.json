@@ -1,0 +1,19 @@
+{
+  "name": "intermedio-22-models",
+  "version": "1.0.0",
+  "private": true,
+  "description": "3D architecture API exercise: subida simulada de archivos",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "dotenv": "^16.4.7"
+  }
+}
