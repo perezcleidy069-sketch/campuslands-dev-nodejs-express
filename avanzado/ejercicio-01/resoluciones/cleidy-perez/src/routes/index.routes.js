@@ -1,9 +1,17 @@
 const { Router } = require('express');
 const characterRoutesV1 = require('./v1/character.routes');
 
-const router = Router();
+function createIndexRoutes(config, service) {
+  const router = Router();
+  router.use('/api/v1/characters', characterRoutesV1(config, service));
 
-// Prefijo para la versión 1 de la API
-router.use('/api/v1/characters', characterRoutesV1);
+  if (config.mode === 'versioned') {
+    const { createCharacterController } = require('../controllers/character.controller');
+    const controller = createCharacterController(config, service);
+    router.get('/api/v2/characters', controller.listV2);
+  }
 
-module.exports = router;
+  return router;
+}
+
+module.exports = { createIndexRoutes };

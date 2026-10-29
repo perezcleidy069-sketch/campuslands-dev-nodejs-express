@@ -1,48 +1,43 @@
-// Simulación de una base de datos en memoria para el ejemplo
-const characters = [
-    { id: 1, name: 'Ariadna', class: 'Exploradora', level: 1, status: 'Lista para la aventura' },
-    { id: 2, name: 'Thorin', class: 'Guerrero', level: 3, status: 'En combate' }
-  ];
-  
-  // Obtener todos los personajes (v1)
-  const getCharactersV1 = (req, res) => {
-    res.status(200).json({
-      success: true,
-      version: 'v1',
-      count: characters.length,
-      data: characters
-    });
-  };
-  
-  // Crear un nuevo personaje (v1)
-  const createCharacterV1 = (req, res) => {
-    const { name, class: charClass, level } = req.body;
-  
-    if (!name || !charClass) {
-      return res.status(400).json({
-        success: false,
-        message: 'El nombre y la clase del personaje son obligatorios.'
+function createCharacterController(config, service) {
+  return {
+    listV1(req, res) {
+      const { data } = service.list(req.query);
+      res.json({ ok: true, version: 'v1', count: data.length, data });
+    },
+    async createV1(req, res, next) {
+      const { name, class: characterClass, level } = req.body;
+      if (typeof name !== 'string' || !name.trim() || typeof characterClass !== 'string' || !characterClass.trim()) {
+        return res.status(400).json({
+          ok: false,
+          error: { code: 'INVALID_CHARACTER', message: 'name and class are required' }
+        });
+      }
+
+      const parsedLevel = level === undefined ? 1 : Number(level);
+      if (!Number.isInteger(parsedLevel) || parsedLevel < 1 || parsedLevel > 100) {
+        return res.status(400).json({
+          ok: false,
+          error: { code: 'INVALID_LEVEL', message: 'level must be an integer from 1 to 100' }
+        });
+      }
+
+      try {
+        const result = await service.perform({ name: name.trim(), class: characterClass.trim(), level: parsedLevel });
+        res.status(201).json({ ok: true, version: 'v1', data: result.created });
+      } catch (error) {
+        next(error);
+      }
+    },
+    listV2(req, res) {
+      const { data } = service.list(req.query);
+      res.json({
+        ok: true,
+        version: 'v2',
+        count: data.length,
+        data: data.map(character => ({ ...character, powerScore: character.level * 10 }))
       });
     }
-  
-    const newCharacter = {
-      id: characters.length + 1,
-      name,
-      class: charClass,
-      level: level || 1,
-      status: 'Listo para la aventura'
-    };
-  
-    characters.push(newCharacter);
-  
-    res.status(201).json({
-      success: true,
-      message: 'Personaje creado exitosamente en v1',
-      data: newCharacter
-    });
   };
-  
-  module.exports = {
-    getCharactersV1,
-    createCharacterV1
-  };
+}
+
+module.exports = { createCharacterController };

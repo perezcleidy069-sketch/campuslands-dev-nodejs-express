@@ -1,11 +1,14 @@
 const { Router } = require('express');
-const { getCharactersV1, createCharacterV1 } = require('../../controllers/character.controller');
 
-const router = Router();
+function createCharacterRoutes(config, service) {
+  const router = Router();
+  const { createCharacterController } = require('../../controllers/character.controller');
+  const controller = createCharacterController(config, service);
 
-// Ruta: /api/v1/characters
-router.get('/', getCharactersV1);
-router.post('/', createCharacterV1);
+  router.get('/', controller.listV1);
+  router.post('/', controller.createV1);
 
-fn = router;
-module.exports = fn;
+  return router;
+}
+
+module.exports = createCharacterRoutes;
