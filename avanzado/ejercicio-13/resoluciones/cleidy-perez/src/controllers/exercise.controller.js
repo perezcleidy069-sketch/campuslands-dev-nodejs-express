@@ -1,0 +1,2 @@
+function createController(config,service){return {list:(req,res)=>{const result=service.list(req.query);res.json({ok:true,topic:config.topic,...result});},perform:async(req,res,next)=>{try{const result=await service.perform(req.body,{requestId:req.requestId,role:req.get('x-role'),idempotencyKey:req.get('Idempotency-Key')});res.status(result.created?201:200).json({ok:true,...result});}catch(error){next(error);}}};}
+module.exports={createController};
