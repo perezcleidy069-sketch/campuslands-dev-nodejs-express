@@ -1,0 +1,18 @@
+{
+  "name": "avanzado-ejercicio-24-cleidy-perez",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Documentación OpenAPI manual para fórmulas químicas",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test src/test/*.test.js",
+    "smoke": "node --test src/test/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
