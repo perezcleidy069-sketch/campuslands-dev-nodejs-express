@@ -1,0 +1,18 @@
+{
+  "name": "intermedio-13-missions",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Science fiction API exercise: relaciones simples",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
