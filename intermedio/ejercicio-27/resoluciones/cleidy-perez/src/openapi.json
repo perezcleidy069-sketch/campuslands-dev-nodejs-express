@@ -1,0 +1,135 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "MOBA Teams API",
+    "version": "1.0.0",
+    "description": "API educativa para administrar equipos de esports MOBA."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Comprueba el estado del servicio",
+        "responses": {
+          "200": {
+            "description": "API disponible"
+          }
+        }
+      }
+    },
+    "/api/teams": {
+      "get": {
+        "summary": "Lista equipos",
+        "responses": {
+          "200": {
+            "description": "Equipos encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "data"],
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Team"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Crea un equipo",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeamInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Equipo creado"
+          },
+          "400": {
+            "description": "Entrada invalida"
+          }
+        }
+      }
+    },
+    "/api/teams/{id}": {
+      "get": {
+        "summary": "Consulta un equipo por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Equipo encontrado"
+          },
+          "404": {
+            "description": "Equipo inexistente"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TeamInput": {
+        "type": "object",
+        "required": ["name", "region"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "example": "Jade Sentinels"
+          },
+          "region": {
+            "type": "string",
+            "minLength": 1,
+            "example": "North League"
+          }
+        }
+      },
+      "Team": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/TeamInput"
+          },
+          {
+            "type": "object",
+            "required": ["id"],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
